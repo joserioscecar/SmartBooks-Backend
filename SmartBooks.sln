@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.4.11605.240 stable
+VisualStudioVersion = 18.4.11605.240
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBooks.Api", "SmartBooks.Api\SmartBooks.Api.csproj", "{0AB18A34-3872-4401-A849-018778BAA074}"
 EndProject
@@ -10,6 +10,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBooks.Domain", "SmartBooks.Domain\SmartBooks.Domain.csproj", "{8DC7F816-377D-4ED2-A027-DF1598FC5EEC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBooks.Infrastructure", "SmartBooks.Infrastructure\SmartBooks.Infrastructure.csproj", "{4DDA7101-C7E3-435E-8FD3-DB6FB610CB5E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{6CF6FC8C-31A6-49FF-8EB9-912CB1A7760A}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
