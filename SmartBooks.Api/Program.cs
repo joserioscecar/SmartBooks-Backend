@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QuestPDF.Infrastructure;
 using SmartBooks.Api.Middleware;
@@ -10,7 +11,9 @@ using SmartBooks.Application.Validators.Clientes;
 using SmartBooks.Infrastructure;
 using SmartBooks.Infrastructure.Http;
 using SmartBooks.Infrastructure.Options;
+using SmartBooks.Infrastructure.Persistence;
 using System.Text;
+
 
 QuestPDF.Settings.License = LicenseType.Community;
 
@@ -126,5 +129,34 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
+// ── Migraciones automáticas ───────────────────────────────────
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<SmartBookDbContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+    var retries = 2;
+    while (retries-- > 0)
+    {
+        try
+        {
+            logger.LogInformation("Aplicando migraciones...");
+            await db.Database.MigrateAsync();
+            logger.LogInformation(" Migraciones aplicadas correctamente.");
+            break;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error completo al migrar. Reintentos restantes: {retries}", retries);
+            if (retries == 0) throw; // lanza el error si se agotaron los reintentos
+            await Task.Delay(3000);
+        }
+    }
+}
+
+
+
 
 app.Run();

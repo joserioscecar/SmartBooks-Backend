@@ -1,14 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SmartBooks.Domain.Entities;
 using SmartBooks.Domain.Enums;
 using SmartBooks.Infrastructure.Security;
-using System.Reflection.Emit;
 
 namespace SmartBooks.Infrastructure.Persistence;
 
 public class SmartBookDbContext : DbContext
 {
-    public SmartBookDbContext(DbContextOptions<SmartBookDbContext> opts) : base(opts) { }
+
+    private readonly IConfiguration _configuration;
+
+    public SmartBookDbContext(DbContextOptions<SmartBookDbContext> opts, IConfiguration configuration) : base(opts) {
+
+        _configuration = configuration;
+
+    }
 
 
     public DbSet<Cliente> Clientes => Set<Cliente>();
@@ -61,8 +68,8 @@ public class SmartBookDbContext : DbContext
             Id = 1,
             Identificacion = "892201263",
             Nombres = "Administrador CDI",
-            Email = "centrodeidiomas@cecar.edu.co",
-            PasswordHash = PasswordHasherHelper.HashPassword("AdminCDI2026"),
+            Email = $"centrodeidiomas@{_configuration["Dominio"]}",
+            PasswordHash = PasswordHasherHelper.HashPassword($"AdminCDI{DateTime.UtcNow.Year}"),
             Rol = RolUsuario.Admin,
             Activo = true,
             CreatedAt = DateTime.UtcNow
