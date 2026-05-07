@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartBooks.Domain.Interfaces;
 namespace SmartBooks.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+
+[Authorize(Roles = "Admin,Vendedor")]
 public class DashboardController : ControllerBase
 {
 
