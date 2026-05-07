@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartBooks.Application.Interfaces;
 
 namespace SmartBooks.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+
+[Authorize(Roles = "Admin,Vendedor")]
 public class LotesController : ControllerBase
 {
 
