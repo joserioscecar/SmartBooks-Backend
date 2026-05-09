@@ -7,3 +7,4 @@ public class BookFilterDto
     public int? Tipo { get; set; }
     public string? Edicion { get; set; }
 }
+

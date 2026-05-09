@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace SmartBooks.Application.DTOs.Libros;
 
-namespace SmartBooks.Application.DTOs.Libros
+public class UpdateLibroDto
 {
-    public class UpdateLibroDto
-    {
-        public string Nombre { get; set; } = default!;
-        public string Nivel { get; set; } = default!;
-        public int Tipo { get; set; }
-        public string Edicion { get; set; } = default!;
-    }
+    public string Nombre { get; set; } = default!;
+    public string Nivel { get; set; } = default!;
+    public int Tipo { get; set; }
+    public string Edicion { get; set; } = default!;
 }

@@ -2,9 +2,10 @@ using AutoMapper;
 using SmartBooks.Application.DTOs.Libros;
 using SmartBooks.Application.Interfaces;
 using SmartBooks.Domain.Entities;
-using SmartBooks.Domain.Interfaces;
 using SmartBooks.Domain.Enums;
 using SmartBooks.Domain.Exceptions;
+using SmartBooks.Domain.Interfaces;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace SmartBooks.Application.Services;
@@ -93,21 +94,21 @@ public class LibroService : ILibroService
         return l is null ? null : _mapper.Map<LibroDto>(l);
     }
 
-    public async Task<IEnumerable<LibroDto>> SearchAsync(string? nombre, string? nivel, int? tipo, string? edicion)
+    public async Task<IEnumerable<LibroDto>> SearchAsync(BookFilterDto dto)
     {
         var q = _libroRepository.Queryable();
 
-        if (!string.IsNullOrWhiteSpace(nombre))
-            q = q.Where(l => l.Nombre.Contains(nombre));
+        if (!string.IsNullOrWhiteSpace(dto.Nombre))
+            q = q.Where(l => l.Nombre.Contains(dto.Nombre));
 
-        if (!string.IsNullOrWhiteSpace(nivel))
-            q = q.Where(l => l.Nivel.Contains(nivel));
+        if (!string.IsNullOrWhiteSpace(dto.Nivel))
+            q = q.Where(l => l.Nivel.Contains(dto.Nivel));
 
-        if (tipo.HasValue)
-            q = q.Where(l => (int)l.Tipo == tipo.Value);
+        if (dto.Tipo.HasValue)
+            q = q.Where(l => (int)l.Tipo == dto.Tipo.Value);
 
-        if (!string.IsNullOrWhiteSpace(edicion))
-            q = q.Where(l => l.Edicion.Contains(edicion));
+        if (!string.IsNullOrWhiteSpace(dto.Edicion))
+            q = q.Where(l => l.Edicion.Contains(dto.Edicion));
 
         var items = await Task.FromResult(q.Select(l => l).ToList());
         return _mapper.Map<IEnumerable<LibroDto>>(items);
@@ -127,10 +128,22 @@ public class LibroService : ILibroService
         await _libroRepository.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<StockDto>> GetStockGroupedAsync()
+    public async Task<IEnumerable<StockDto>> GetStockGroupedAsync(BookFilterDto dto)
     {
 
         var stock = _libroRepository.Queryable();
+
+
+        if (!string.IsNullOrWhiteSpace(dto.Nombre))
+            stock = stock.Where(l => l.Nombre.Contains(dto.Nombre));
+
+        if (!string.IsNullOrWhiteSpace(dto.Nivel))
+            stock = stock.Where(l => l.Nivel.Contains(dto.Nivel));  
+        if (dto.Tipo.HasValue)
+            stock = stock.Where(l => (int)l.Tipo == dto.Tipo.Value);
+
+        if (!string.IsNullOrWhiteSpace(dto.Edicion))
+            stock = stock.Where(l => l.Edicion.Contains(dto.Edicion));
 
         var result = stock
             .SelectMany(l => l.Inventarios)

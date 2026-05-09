@@ -46,17 +46,6 @@ public class LibrosController : ControllerBase
         return Ok(libro);
     }
 
-
-    [HttpGet]
-    public async Task<IActionResult> Buscar([FromQuery] BookFilterDto dto)
-    {
-
-        var libros = await _libroService.SearchAsync(dto.Nombre, dto.Nivel, dto.Tipo, dto.Edicion);
-
-        return Ok(libros);
-    }
-
-
     [HttpPut("{id}")]
     public async Task<IActionResult> Actualizar(int id, [FromBody] UpdateLibroDto dto)
     {
@@ -68,11 +57,11 @@ public class LibrosController : ControllerBase
     }
 
 
-    [HttpGet("stock")]
-    public async Task<IActionResult> VerStockPorLibro()
+    [HttpGet]
+    public async Task<IActionResult> VerStockPorLibro([FromQuery] BookFilterDto dto)
     {
 
-        var stock = await _libroService.GetStockGroupedAsync();
+        var stock = await _libroService.GetStockGroupedAsync(dto);
 
         return Ok(stock);
     }
