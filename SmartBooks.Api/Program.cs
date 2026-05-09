@@ -131,7 +131,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 
-// ── Migraciones automáticas ───────────────────────────────────
+/*
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<SmartBookDbContext>();
@@ -150,13 +150,14 @@ using (var scope = app.Services.CreateScope())
         catch (Exception ex)
         {
             logger.LogError(ex, "Error completo al migrar. Reintentos restantes: {retries}", retries);
-            if (retries == 0) throw; // lanza el error si se agotaron los reintentos
+            if (retries == 0) throw; 
             await Task.Delay(3000);
         }
     }
+
 }
 
-
+*/
 
 
 app.Run();
