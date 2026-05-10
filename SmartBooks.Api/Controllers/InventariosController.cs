@@ -29,7 +29,7 @@ public class InventariosController : ControllerBase
         return Ok(lotes);
     }
 
-
+    /*
     [HttpGet("stock")]
     public async Task<IActionResult> VerStockPorLibro()
     {
@@ -38,5 +38,7 @@ public class InventariosController : ControllerBase
 
         return Ok(stock);
     }
+
+    */
 
 }

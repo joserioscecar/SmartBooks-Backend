@@ -72,7 +72,7 @@ public class InventarioRepository : IInventarioRepository
 
         if (!string.IsNullOrWhiteSpace(lote))
         {
-            query = query.Where(l => l.Lote.StartsWith(lote));
+            query = query.Where(l => l.Lote == lote);
         }
 
         return await query

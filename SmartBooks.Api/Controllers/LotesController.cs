@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SmartBooks.Application.DTOs.Lotes;
 using SmartBooks.Application.Interfaces;
 
 namespace SmartBooks.Api.Controllers;
@@ -26,12 +27,12 @@ public class LotesController : ControllerBase
 
 
     [HttpPost]
-    public async Task<ActionResult> PostLotes([FromBody] string lote)
+    public async Task<ActionResult> PostLotes(CrearLoteDto dto)
     {
 
-        await _service.AddAsync(lote);
+        await _service.AddAsync(dto.Lote);
 
-        return CreatedAtAction(nameof(GetLotes), new { lote }, lote);
+        return CreatedAtAction(nameof(GetLotes), new { dto.Lote });
 
 
     }
