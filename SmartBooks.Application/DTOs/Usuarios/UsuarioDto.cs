@@ -7,6 +7,6 @@ namespace SmartBooks.Application.DTOs.Usuarios
         public string Nombres { get; set; } = default!;
         public string Email { get; set; } = default!;
         public string Rol { get; set; } = default!;
-        public int Activo { get; set; }
+        public bool Activo { get; set; }
     }
 }

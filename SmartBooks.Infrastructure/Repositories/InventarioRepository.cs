@@ -28,7 +28,7 @@ public class InventarioRepository : IInventarioRepository
     }
 
 
-    public async Task<int> SumIngresosByLoteAsync(int libroId, string lote)
+    public async Task<int> SumIngresosByLoteAsync(int libroId, int lote)
     {
         return await _db.Ingresos
             .Where(i => i.Lote == lote)
@@ -37,7 +37,7 @@ public class InventarioRepository : IInventarioRepository
     }
 
 
-    public async Task<int> SumVentasByLoteAsync(int libroId,string lote)
+    public async Task<int> SumVentasByLoteAsync(int libroId,int lote)
     {
         return await _db.VentaItems
             .Where(v => v.Lote == lote)
@@ -46,33 +46,33 @@ public class InventarioRepository : IInventarioRepository
     }
 
 
-    public async Task<Inventario?> GetByCodigoExactoAsync(string codigo)
+    public async Task<Inventario?> GetByCodigoExactoAsync(int lote)
     {
         return await _db.Inventarios
             .Include(l => l.Libro)
-            .FirstOrDefaultAsync(l => l.Lote == codigo);
+            .FirstOrDefaultAsync(l => l.Lote == lote);
     }
 
 
-    public async Task<Inventario?> GetByCodigoAndLibroAsync(string codigoBase, int libroId)
+    public async Task<Inventario?> GetByCodigoAndLibroAsync(int lote, int libroId)
     {
         return await _db.Inventarios
             .Include(l => l.Libro)
-            .Where(l => l.Lote== codigoBase) 
+            .Where(l => l.Lote== lote) 
             .Where(l => l.LibroId == libroId)
             .OrderBy(l => l.Id)
             .FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<Inventario>> GetLotesByLoteAsync(string? lote)
+    public async Task<IEnumerable<Inventario>> GetLotesByLoteAsync(int? lote)
     {
         var query = _db.Inventarios
             .Include(l => l.Libro)
             .AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(lote))
+        if (lote.HasValue)
         {
-            query = query.Where(l => l.Lote == lote);
+            query = query.Where(l => l.Lote == lote.Value);
         }
 
         return await query

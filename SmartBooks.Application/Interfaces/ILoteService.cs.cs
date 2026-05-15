@@ -7,5 +7,5 @@ public interface ILoteService
 {
    Task<IEnumerable<LoteDto>> GetLotesAsync();
 
-   Task AddAsync(string lote);
+   Task AddAsync(int lote);
 }

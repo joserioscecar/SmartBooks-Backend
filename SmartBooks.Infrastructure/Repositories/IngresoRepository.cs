@@ -27,7 +27,7 @@ public class IngresoRepository : IIngresoRepository
         await _db.SaveChangesAsync();
     }
 
-    public async Task<string[]> GetLotesAsync()
+    public async Task<int[]> GetLotesAsync()
     {
 
         return await _db.Inventarios.AsNoTracking()

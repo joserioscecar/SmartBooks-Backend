@@ -7,7 +7,7 @@ public interface IUsuariosService
     Task<IEnumerable<UsuarioListDto>> SearchAsync(string? nombres, int? rol);
     Task<UsuarioDto?> GetByIdAsync(int id);
     Task UpdateAsync(int id, UpdateUsuarioDto dto);
-    Task ChangeStateAsync(int id, bool activo);
+    Task<bool> ChangeStateAsync(int id);
     Task<UserProfileDto?> GetProfileAsync(int id);
     Task RegisterAsync(RegisterUsuarioDto dto);
     Task VerifyEmailAsync(string token);

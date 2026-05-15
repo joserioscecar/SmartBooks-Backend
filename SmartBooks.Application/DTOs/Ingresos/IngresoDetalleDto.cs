@@ -3,7 +3,7 @@
 public class IngresoDetalleDto
 {
     public int Id { get; set; }
-    public string CodigoLote { get; set; } = default!;
+    public int Lote { get; set; }
     public DateTime Fecha { get; set; }
     public string LibroNombre { get; set; } = default!;
     public string Nivel { get; set; } = default!;

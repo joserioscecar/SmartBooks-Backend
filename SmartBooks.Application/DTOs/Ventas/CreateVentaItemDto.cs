@@ -3,7 +3,7 @@
     public class CreateVentaItemDto
     {
         public int LibroId { get; set; }
-        public string Lote { get; set; } = string.Empty;
+        public int Lote { get; set; } 
         public int Cantidad { get; set; }
     }
 }

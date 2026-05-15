@@ -59,11 +59,11 @@ public class UsuariosController : ControllerBase
 
     [HttpPatch("{id}/estado")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> CambiarEstado(int id, [FromQuery] bool activo)
+    public async Task<IActionResult> CambiarEstado(int id)
     {
 
-        await _service.ChangeStateAsync(id, activo);
-        var estado = activo ? "activado" : "inactivado";
+        var estado = await _service.ChangeStateAsync(id);
+
         return Ok(new { mensaje = $"Usuario {estado} correctamente." });
 
     }

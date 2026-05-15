@@ -1,4 +1,5 @@
-﻿using SmartBooks.Application.DTOs.Ventas;
+﻿using Microsoft.Extensions.Configuration;
+using SmartBooks.Application.DTOs.Ventas;
 using SmartBooks.Application.Interfaces;
 using SmartBooks.Domain.Entities;
 using SmartBooks.Domain.Exceptions;
@@ -16,6 +17,7 @@ public class VentaService : IVentaService
     private readonly IPdfGenerator _pdf;
     private readonly IEmailService _email;
     private readonly ILibroRepository  _libroRepository;
+    private readonly IConfiguration _configuration;
 
     public VentaService(
         IVentaRepository ventaRepo,
@@ -25,7 +27,8 @@ public class VentaService : IVentaService
         IInventarioRepository inventarioRepo,
         IPdfGenerator pdf,
         IEmailService email,
-        ILibroRepository libroRepository
+        ILibroRepository libroRepository,
+        IConfiguration configuration
         )
     {
         _ventaRepo = ventaRepo;
@@ -36,6 +39,8 @@ public class VentaService : IVentaService
         _pdf = pdf;
         _email = email;
         _libroRepository = libroRepository;
+
+        _configuration = configuration;
     }
 
     private async Task<string> GenerarNumeroReciboAsync()
@@ -129,15 +134,22 @@ public class VentaService : IVentaService
 
         if (ventaCompleta != null)
         {
-            var pdfBytes = _pdf.GenerarFacturaPdf(ventaCompleta);
 
-            await _email.SendEmailWithAttachmentAsync(
-                cliente.Email,
-                $"Factura - {ventaCompleta.NumeroRecibo}",
-                "<p>Gracias por su compra.</p>",
-                pdfBytes,
-                $"Factura_{ventaCompleta.NumeroRecibo}.pdf"
-            );
+
+            if (_configuration.GetValue<bool>("EnviarFactura")) {
+
+                var pdfBytes = _pdf.GenerarFacturaPdf(ventaCompleta);
+
+                await _email.SendEmailWithAttachmentAsync(
+                    cliente.Email,
+                    $"Factura - {ventaCompleta.NumeroRecibo}",
+                    "<p>Gracias por su compra.</p>",
+                    pdfBytes,
+                    $"Factura_{ventaCompleta.NumeroRecibo}.pdf"
+                );
+            }
+
+
         }
 
         return new VentaResultDto

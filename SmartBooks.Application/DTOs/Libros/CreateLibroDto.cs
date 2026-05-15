@@ -10,7 +10,7 @@ public class CreateLibroDto
     public string Edicion { get; set; } = default!;
 
     public int Unidades { get; set; }
-    public string Lote { get; set; } = default!;
+    public int Lote { get; set; } = default!;
     public decimal ValorCompra { get; set; } = default!;
     public decimal ValorVentaPublico{ get; set; } = default!;
 

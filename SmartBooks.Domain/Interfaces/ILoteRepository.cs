@@ -8,5 +8,5 @@ public interface ILoteRepository
 
     Task AddAsync(Lote lote);
 
-    Task<bool> ExisteLoteAsync(string codigo);
+    Task<bool> ExisteLoteAsync(int codigo);
 }

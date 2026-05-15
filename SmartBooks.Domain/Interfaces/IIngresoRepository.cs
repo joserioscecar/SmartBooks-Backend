@@ -9,5 +9,5 @@ public interface IIngresoRepository
     IQueryable<Ingreso> Queryable();
     Task SaveChangesAsync();
 
-    Task<string[]> GetLotesAsync();
+    Task<int[]> GetLotesAsync();
 }

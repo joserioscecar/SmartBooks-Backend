@@ -19,7 +19,7 @@ public class InventariosController : ControllerBase
 
 
     [HttpGet]
-    public async Task<IActionResult> GetByLote(string? lote)
+    public async Task<IActionResult> GetByLote(int? lote)
     {
         var lotes = await _service.GetLotesByLoteAsync(lote);
 

@@ -2,6 +2,6 @@
 
 public class Lote
 {
-    public string Codigo { get; init; }
+    public int Codigo { get; init; }
     public bool Actual { get; set; }=true;
 }

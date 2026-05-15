@@ -1,3 +1,3 @@
 ﻿namespace SmartBooks.Application.DTOs.Lotes;
 
-public record CrearLoteDto(string Lote);
+public record CrearLoteDto(int Lote);

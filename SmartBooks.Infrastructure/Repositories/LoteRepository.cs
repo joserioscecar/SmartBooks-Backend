@@ -27,7 +27,7 @@ public class LoteRepository : ILoteRepository
         return _db.Lotes.AsEnumerable().OrderByDescending(l=>l.Codigo);
     }
 
-    public async Task<bool> ExisteLoteAsync(string codigo)
+    public async Task<bool> ExisteLoteAsync(int codigo)
     {
         return await _db.Lotes
             .AnyAsync(l => l.Codigo == codigo);

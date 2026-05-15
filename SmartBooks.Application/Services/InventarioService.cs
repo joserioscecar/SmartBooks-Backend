@@ -17,7 +17,7 @@ public class InventarioService : IInventarioService
 
 
 
-    public async Task<IEnumerable<InventarioDto>> GetLotesByLoteAsync(string? lote)
+    public async Task<IEnumerable<InventarioDto>> GetLotesByLoteAsync(int? lote)
     {
         var lotes = await _repo.GetLotesByLoteAsync(lote);
 

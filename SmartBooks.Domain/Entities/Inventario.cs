@@ -4,7 +4,7 @@ public class Inventario
 {
     public int Id { get; set; }
 
-    public string Lote { get; set; } = string.Empty;
+    public int Lote { get; set; }
 
     public int LibroId { get; set; }
     public Libro Libro { get; set; } = null!;

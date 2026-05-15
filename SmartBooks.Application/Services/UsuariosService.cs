@@ -45,11 +45,8 @@ public class UsuariosService : IUsuariosService
         if (usuario is null)
             throw new KeyNotFoundException("Usuario no encontrado.");
 
-        if (!dto.Email.EndsWith(_config["Dominio"]))
-            throw new ArgumentException($"Solo se permiten correos institucionales (@{_config["Dominio"]}).");
-
-        if (usuario.Rol == RolUsuario.Admin)
-            throw new UnauthorizedAccessException();
+        if (!dto.Email.EndsWith(_config.GetValue<string>("Dominio")!))
+            throw new ArgumentException($"Solo se permiten correos institucionales (@{_config.GetValue<string>("Dominio")!}).");
 
         usuario.Nombres = dto.Nombres;
         usuario.Email = dto.Email.ToLowerInvariant();
@@ -59,14 +56,15 @@ public class UsuariosService : IUsuariosService
         await _usuarioRepo.SaveChangesAsync();
     }
 
-    public async Task ChangeStateAsync(int id, bool activo)
+    public async Task<bool> ChangeStateAsync(int id)
     {
         var usuario = await _usuarioRepo.GetByIdAsync(id);
         if (usuario is null)
             throw new KeyNotFoundException("Usuario no encontrado.");
 
-        usuario.Activo = activo;
+        usuario.Activo = !usuario.Activo;
         await _usuarioRepo.SaveChangesAsync();
+        return usuario.Activo;
     }
 
     public async Task<UserProfileDto?> GetProfileAsync(int id)
@@ -80,8 +78,8 @@ public class UsuariosService : IUsuariosService
         if (await _usuarioRepo.GetByEmailAsync(dto.Email) != null)
             throw new ArgumentException("El correo ya está registrado.");
 
-        if (!dto.Email.EndsWith(_config["Dominio"]))
-            throw new ArgumentException($"Solo se permiten correos institucionales (@{_config["Dominio"]}).");
+        if (!dto.Email.EndsWith(_config.GetValue<string>("Dominio")!))
+            throw new ArgumentException($"Solo se permiten correos institucionales (@{_config.GetValue<string>("Dominio")!}).");
 
         var usuario = new Usuario
         {
@@ -98,7 +96,7 @@ public class UsuariosService : IUsuariosService
         await _usuarioRepo.AddAsync(usuario);
         await _usuarioRepo.SaveChangesAsync();
 
-        var enlaceVerificacion = $"{_config["EnlaceVerificacionCorreo"]}{usuario.EmailVerificationToken}";
+        var enlaceVerificacion = $"{_config.GetValue<string>("EnlaceVerificacionCorreo")}{usuario.EmailVerificationToken}";
         await _email.SendEmailAsync(usuario.Email, "Verificación de correo - SmartBook", $"<p>Hola {usuario.Nombres},</p><p>Haz clic <a href='{enlaceVerificacion}'>aquí</a> para verificar tu cuenta.</p>");
     }
 

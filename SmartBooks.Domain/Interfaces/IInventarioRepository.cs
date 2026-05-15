@@ -6,11 +6,11 @@ public interface IInventarioRepository
 {
     Task AddAsync(Inventario inventario);
     Task<Inventario?> GetLoteWithLibroAsync(int loteId);
-    Task<int> SumIngresosByLoteAsync(int libroId,string lote);
-    Task<int> SumVentasByLoteAsync(int libroId, string lote);
-    Task<Inventario?> GetByCodigoExactoAsync(string codigo);
-    Task<Inventario?> GetByCodigoAndLibroAsync(string codigoBase, int libroId);
-    Task<IEnumerable<Inventario>> GetLotesByLoteAsync(string? lote);
+    Task<int> SumIngresosByLoteAsync(int libroId,int lote);
+    Task<int> SumVentasByLoteAsync(int libroId, int lote);
+    Task<Inventario?> GetByCodigoExactoAsync(int lote);
+    Task<Inventario?> GetByCodigoAndLibroAsync(int lote, int libroId);
+    Task<IEnumerable<Inventario>> GetLotesByLoteAsync(int? lote);
     IQueryable<Inventario> Queryable();
 
     Task<Inventario?> FindByIdAsync(int id);

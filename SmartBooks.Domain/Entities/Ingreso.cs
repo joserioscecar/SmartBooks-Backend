@@ -15,7 +15,7 @@ namespace SmartBooks.Domain.Entities
         [ForeignKey(nameof(LibroId))]
         public Libro Libro { get; set; } = default!;
 
-        public string Lote { get; set; } = default!;
+        public int Lote { get; set; } = default!;
 
         [Required]
         public int Unidades { get; set; }

@@ -9,5 +9,5 @@ public class InventarioDto
     public int CantidadIngresada { get; set; }
     public int CantidadVendida { get; set; }
     public int StockDisponible { get; set; }
-    public string Lote { get; set; } = default!;
+    public int Lote { get; set; } = default!;
 }

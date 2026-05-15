@@ -19,7 +19,7 @@ public class LoteService : ILoteService
         _mapper = mapper;
     }
 
-    public async Task AddAsync(string lote)
+    public async Task AddAsync(int lote)
     {
 
         var loteExistente = await _repo.ExisteLoteAsync(lote);

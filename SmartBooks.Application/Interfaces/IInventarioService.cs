@@ -7,7 +7,7 @@ namespace SmartBooks.Application.Interfaces
 {
     public interface IInventarioService
     {
-        Task<IEnumerable<InventarioDto>> GetLotesByLoteAsync(string? lote);
+        Task<IEnumerable<InventarioDto>> GetLotesByLoteAsync(int? lote);
         Task<IEnumerable<StockDto>> GetStockGroupedAsync();
 
 

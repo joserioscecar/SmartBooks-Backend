@@ -54,7 +54,7 @@ public class IngresoService : IIngresoService
         {
             Id = ingreso.Id,
             Fecha = ingreso.Fecha,
-            CodigoLote = lote.Lote,
+            Lote = lote.Lote,
             Unidades = ingreso.Unidades,
             ValorCompra = ingreso.ValorCompra,
             ValorVentaPublico = ingreso.ValorVentaPublico
@@ -66,7 +66,7 @@ public class IngresoService : IIngresoService
         var ingreso = _repo.Queryable().Where(i => i.Id == id).Select(i => new IngresoDetalleDto
         {
             Id = i.Id,
-            CodigoLote = i.Lote,
+            Lote = i.Lote,
             Fecha = i.Fecha,
             LibroNombre = i.Libro.Nombre,
             Nivel = i.Libro.Nivel,
@@ -91,8 +91,8 @@ public class IngresoService : IIngresoService
         if (dto.Hasta.HasValue)
             query = query.Where(i => i.Fecha <= dto.Hasta.Value);
 
-        if (!string.IsNullOrWhiteSpace(dto.Lote))
-            query = query.Where(i => i.Lote.Contains(dto.Lote));
+        if (dto.Lote.HasValue)
+            query = query.Where(i => i.Lote==dto.Lote.Value);
 
 
         var resultados = query.OrderByDescending(i => i.Fecha)
@@ -100,7 +100,7 @@ public class IngresoService : IIngresoService
             {
                 Id = i.Id,
                 Fecha = i.Fecha,
-                CodigoLote = i.Lote,
+                Lote = i.Lote,
                 Unidades = i.Unidades,
                 ValorCompra = i.ValorCompra,
                 ValorVentaPublico = i.ValorVentaPublico
@@ -110,7 +110,7 @@ public class IngresoService : IIngresoService
         return Task.FromResult((IEnumerable<IngresoResultDto>)resultados);
     }
 
-    public Task<string[]> GetLotesAsync()
+    public Task<int[]> GetLotesAsync()
     {
         return _repo.GetLotesAsync();
     }
