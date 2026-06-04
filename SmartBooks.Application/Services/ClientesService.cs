@@ -64,7 +64,6 @@ public class ClientesService : IClientesService
         c.Nombres = StringSanitizer.WithoutDiacritics(dto.Nombres.Trim());
         c.Email = dto.Email.ToLowerInvariant();
         c.Celular = dto.Celular;
-        c.FechaNacimiento = dto.FechaNacimiento;
         c.FechaActualizacion = DateTime.UtcNow;
 
         await _repo.SaveChangesAsync();

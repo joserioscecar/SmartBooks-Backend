@@ -16,9 +16,11 @@ public class UsuariosService : IUsuariosService
     private readonly IPasswordHasher _hasher;
     private readonly IMapper _mapper;
     private readonly IConfiguration _config;
+    private readonly IClientContext _clientContext;
 
-    public UsuariosService(IUsuarioRepository usuarioRepo, IEmailService email, IJwtTokenService jwt, IPasswordHasher hasher, IMapper mapper,IConfiguration config)
+    public UsuariosService(IUsuarioRepository usuarioRepo, IEmailService email, IJwtTokenService jwt, IPasswordHasher hasher, IMapper mapper,IConfiguration config, IClientContext clientContext)
     {
+        _clientContext = clientContext;
         _usuarioRepo = usuarioRepo;
         _email = email;
         _jwt = jwt;
@@ -121,7 +123,9 @@ public class UsuariosService : IUsuariosService
         if (!usuario.Activo)
             throw new UnauthorizedAccessException("Cuenta inactiva o sin verificar.");
 
-        var token = _jwt.GenerateToken(usuario.Id, usuario.Nombres, usuario.Rol.ToString());
+        
+
+        var token = _jwt.GenerateToken(usuario.Id, usuario.Nombres, usuario.Rol.ToString(), dto.JwtExpiration);
         return new TokenResultDto
         {
             Token = token,

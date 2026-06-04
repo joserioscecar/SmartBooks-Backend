@@ -1,18 +1,23 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using SmartBooks.Application.Interfaces;
+using SmartBooks.Infrastructure.Options;
 
-namespace SmartBooks.Application.Security;
+namespace SmartBooks.Infrastructure.Service;
 
 public class JwtTokenService : IJwtTokenService
 {
-    private readonly IConfiguration _config;
-    public JwtTokenService(IConfiguration config) => _config = config;
+    private readonly JwtOptions _options;
 
-    public string GenerateToken(int usuarioId, string nombre, string rol)
+    public JwtTokenService(IOptions<JwtOptions> options)
+    {
+        _options = options.Value;
+    }
+
+    public string GenerateToken(int usuarioId, string nombre, string rol, int duracion)
     {
         var claims = new[]
         {
@@ -21,14 +26,14 @@ public class JwtTokenService : IJwtTokenService
             new Claim(ClaimTypes.Role, rol)
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Key));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: _config["Jwt:Issuer"],
-            audience: _config["Jwt:Audience"],
+            issuer: _options.Issuer,
+            audience: _options.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(1),
+            expires: DateTime.UtcNow.AddMinutes(duracion),
             signingCredentials: creds
         );
 

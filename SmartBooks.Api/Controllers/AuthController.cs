@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using SmartBooks.Application.DTOs.Usuarios;
 using SmartBooks.Application.Interfaces;
+using SmartBooks.Infrastructure.Options;
 
 namespace SmartBooks.Api.Controllers;
 
@@ -11,9 +13,12 @@ public class SeguridadController : ControllerBase
 {
     private readonly IUsuariosService _usuariosService;
     private readonly IClientContext _clientContext;
-
-    public SeguridadController(IUsuariosService usuariosService, IClientContext clientContext)
+    private readonly JwtExpiration _jwtExpiration;
+    
+    public SeguridadController(IUsuariosService usuariosService, IClientContext clientContext, IOptions<JwtExpiration> jwtExpiration)
     {
+        _jwtExpiration = jwtExpiration.Value;
+
         _usuariosService = usuariosService;
         _clientContext = clientContext;
     }
@@ -40,12 +45,18 @@ public class SeguridadController : ControllerBase
         try
         {
 
+            var duracionToken = _jwtExpiration.Web;
+
+
             if (_clientContext.IsMobile) { 
             
-            
+                duracionToken = _jwtExpiration.Mobile;
+
             }
 
-                var result = await _usuariosService.LoginAsync(dto);
+            dto.JwtExpiration = duracionToken;
+
+            var result = await _usuariosService.LoginAsync(dto);
             return Ok(new { token = result.Token, usuario = result.Usuario });
         }
         catch (UnauthorizedAccessException ex)

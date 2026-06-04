@@ -8,7 +8,6 @@ using SmartBooks.Infrastructure.Repositories;
 using SmartBooks.Infrastructure.PDF;
 using SmartBooks.Infrastructure.Security;
 using SmartBooks.Application.Services;
-using SmartBooks.Application.Security;
 using SmartBooks.Infrastructure.Service;
 
 

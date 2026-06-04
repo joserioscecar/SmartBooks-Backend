@@ -34,15 +34,6 @@ public class SmartBookDbContext : DbContext
     {
         base.OnModelCreating(b);
 
-
-        b.Entity<Cliente>()
-        .Property(c => c.FechaNacimiento)
-        .HasConversion(
-            v => v.ToDateTime(TimeOnly.MinValue), // Convertir DateOnly a DateTime
-            v => DateOnly.FromDateTime(v)          // Convertir de DateTime a DateOnly
-        );
-
-
         b.Entity<Cliente>().HasIndex(x => x.Identificacion).IsUnique();
         b.Entity<Cliente>().HasIndex(x => x.Email).IsUnique();
         b.Entity<Cliente>().HasIndex(x => x.Celular).IsUnique();

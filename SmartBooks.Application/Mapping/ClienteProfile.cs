@@ -14,8 +14,6 @@ public class ClienteProfile : Profile
                 opt => opt.MapFrom(src => src.Identificacion))
             .ForMember(dest => dest.Nombres,
                 opt => opt.MapFrom(src => StringSanitizer.WithoutDiacritics(src.Nombres.Trim())))
-            .ForMember(dest => dest.FechaNacimiento,
-                opt => opt.MapFrom(src => src.FechaNacimiento))
             .ForMember(dest => dest.Email,
                 opt => opt.MapFrom(src => src.Email.Trim().ToLowerInvariant()))
             .ForMember(dest => dest.Celular,

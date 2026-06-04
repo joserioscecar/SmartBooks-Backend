@@ -34,6 +34,11 @@ builder.Services.Configure<EmailOptions>(
 builder.Services.Configure<JwtOptions>(
     builder.Configuration.GetSection(JwtOptions.SectionName));
 
+
+builder.Services.Configure<JwtExpiration>(
+    builder.Configuration.GetSection(JwtExpiration.SectionName));
+
+
 var jwtOptions = builder.Configuration
     .GetSection(JwtOptions.SectionName)
     .Get<JwtOptions>()!;
